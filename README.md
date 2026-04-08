@@ -1,69 +1,84 @@
 <div align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Omega_uc_lc.svg" width="120" style="opacity: 0.8;" />
-  <h1 align="center">SOVEREIGN BRIDGE</h1>
-  <p align="center">
-    <strong>Absolute E2EE Zero-Cloud Data Synchronization</strong>
-  </p>
+  <h1>SOVEREIGN BRIDGE</h1>
+  <p><strong>Zero-Cloud Cross-Platform Data Synchronization</strong></p>
+  <p><em>Absolute E2E encrypted. No intermediary. No cloud storage.</em></p>
 </div>
 
-Sovereign Bridge isn't just an app; it is an uncompromised philosophical architecture for total data sovereignty. 
+![Status](https://img.shields.io/badge/Status-ACTIVE-success?style=for-the-badge&labelColor=000000&color=d4af37)
+![Security](https://img.shields.io/badge/Security-AES--256%20E2EE-critical?style=for-the-badge&labelColor=000000)
+![Stack](https://img.shields.io/badge/Stack-Python%20%2B%20React%20Native-informational?style=for-the-badge&labelColor=000000)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge&labelColor=000000)
 
-We live in an era where copying a string of text from your phone to your PC forces it to traverse 5,000 miles across public infrastructure, passing through multiple data brokers, telemetry nodes, and third-party servers. Sovereign Bridge rejects this paradigm completely. 
+---
 
-**Zero Cloud. Zero Third-Parties. Absolute Control.**
+Sovereign Bridge is a cross-platform clipboard, file, note, and capture sharing system between PC and Android. Architecture: Python aiohttp daemon on PC + React Native mobile app, connected via WebSocket with localtunnel NAT traversal.
 
-## How It Works
+> **Data traverses directly from device to device. Zero cloud storage.**
 
-Sovereign Bridge utilizes a hardened Tri-Node Architecture:
-1. **The Daemon (`bridge_daemon.py`):** An asynchronous Python WebSockets relay running strictly locally on your PC.
-2. **The Desktop Dashboard (`App.jsx`):** A VERITAS-branded React UI for reviewing captured timeline elements.
-3. **The Mobile Application (`React Native`):** The Android bridge hooked directly into your OS's native "Share" Intents and Clipboard.
+## Architecture
 
-Data traverses directly from device to device. Tunneling (like `localtunnel` or `ngrok`) is strictly used as an internet passthrough—not a storage node.
+`
++----------------------------+          +----------------------------+
+|  MOBILE APP (Android)      |  <-WS->  |  PC DAEMON (Python)        |
+|  React Native              |          |  aiohttp + WebSocket       |
+|  Clipboard / Camera / Files|          |  Port 5003                 |
++----------------------------+          +----------------------------+
+        |                                        |
+        +--- localtunnel NAT traversal ----------+
+        |                                        |
++----------------------------+          +----------------------------+
+|  AES-256 E2EE              |          |  DESKTOP DASHBOARD         |
+|  Pre-shared key            |          |  React UI                  |
+|  Zero handshake            |          |  Drag-and-drop staging     |
++----------------------------+          +----------------------------+
+`
 
-## Cryptographic Guarantees (Phase 4 AES-256 E2EE)
+### Cryptographic Guarantees (AES-256 E2EE)
 
-All JSON payloads are cryptographically shredded and encrypted **before** they leave your device's memory. 
+All JSON payloads are encrypted **before** leaving device memory using AES-256-CBC with PKCS7 padding and randomized 16-byte initialization vectors per transmission. Pre-shared key (PSK) architecture — zero key exchange, zero MITM surface.
 
-- The cryptographic engine leverages a `STATIC_SECRET` pre-shared key (PSK) generated via `CryptoJS.SHA256` and PyCryptodome.
-- We utilize `AES.MODE_CBC` with `Pkcs7` block padding, enforcing randomized 16-byte initialization vectors (`IV`) per transmission.
-- Because the secret is hardcoded directly into the raw source, there is **zero handshake**. Man-in-the-Middle (MITM) attacks are mathematically eliminated because the connection never negotiates a key exchange.
-
-> [!CAUTION]
-> You **MUST** change the `STATIC_SECRET` in all three source files (`BridgeWebSocketService.js`, `App.jsx`, and `bridge_daemon.py`) before compilation.
+> **You MUST change the `STATIC_SECRET` in all three source files before deployment.**
 
 ## Features
 
-- **Autonomous Clipboard Gating:** Selectively toggle real-time bidirectional clipboard sync directly from the Desktop hardware interface.
-- **Native Android Send Intents:** Beam any file, photo, text, or URL straight to your PC natively via standard OS "Share" sheets. 
-- **Native Desktop Notifications:** Bind OS-level Windows `winotify` toast overlays for incoming transfers.
-- **OCR Text Extraction:** Direct embedded image-to-text integration for receipts, code, and documents.
-- **Dropzone Staging:** Drag and drop PC files into the bridge to manifest them onto your phone instantly. 
+- **Bidirectional Clipboard Sync** - Real-time clipboard sharing with selective gating
+- **Native Android Share Intents** - Beam files, photos, text, or URLs via OS share sheet
+- **Desktop Notifications** - Windows toast overlays (winotify) for incoming transfers
+- **OCR Text Extraction** - Image-to-text for receipts, code, and documents
+- **Dropzone Staging** - Drag and drop PC files to transfer to phone
+- **Ephemeral + Persistent Lanes** - Choose whether transfers are kept or auto-cleared
+- **Project Tagging** - Tag transfers to organize by project context
+- **Offline Queue** - Transfers queued when disconnected, delivered on reconnect
 
-## Installation
+## Quick Start
 
-### 1. Boot The Daemon
-```bash
+### 1. Boot the Daemon
+`ash
 cd daemon_and_desktop
 pip install -r requirements.txt
 python bridge_daemon.py
-```
+`
 
-### 2. Ignite The Dashboard
-```bash
+### 2. Launch the Dashboard
+`ash
 cd daemon_and_desktop/desktop
 npm install
 npm run dev
-```
+`
 
-### 3. Deploy The Android Sandbox
-Open `mobile_app/src/services/BridgeWebSocketService.js` and specify your PC's IP or proxy tunnel.
-```bash
+### 3. Deploy the Mobile App
+`ash
 cd mobile_app
 npm install
 npm run android
-```
+`
+
+## License
+
+MIT
+
+---
 
 <div align="center">
-  <p><i>Examina omnia, venerare nihil, pro te cogita</i></p>
+  <sub>Built by <a href="https://github.com/VrtxOmega">RJ Lopez</a> | VERITAS Framework</sub>
 </div>
