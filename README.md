@@ -1,4 +1,5 @@
 <div align="center">
+  <img src="https://raw.githubusercontent.com/VrtxOmega/Gravity-Omega/master/omega_icon.png" width="100" alt="VERITAS" />
   <h1>SOVEREIGN BRIDGE</h1>
   <p><strong>Zero-Cloud Cross-Platform Data Synchronization</strong></p>
   <p><em>Absolute E2E encrypted. No intermediary. No cloud storage.</em></p>
