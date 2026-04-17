@@ -3,6 +3,18 @@
   <h1>SOVEREIGN BRIDGE</h1>
   <p><strong>Zero-Cloud Cross-Platform Data Synchronization</strong></p>
   <p><em>Absolute E2E encrypted. No intermediary. No cloud storage.</em></p>
+
+  <br/>
+  
+  <img src="assets/sovereign_bridge_mobile.jpg" alt="Sovereign Bridge Mobile" width="400" />
+  <br/>
+  <sup><em>Sovereign Bridge Mobile Application &mdash; VERITAS gold-and-obsidian zero-cloud timeline</em></sup>
+  
+  <br/><br/>
+  
+  <img src="assets/sovereign_bridge_desktop.png" alt="Sovereign Bridge Desktop" width="800" />
+  <br/>
+  <sup><em>Sovereign Bridge Desktop Console &mdash; E2EE PC node visualization</em></sup>
 </div>
 
 ![Status](https://img.shields.io/badge/Status-ACTIVE-success?style=for-the-badge&labelColor=000000&color=d4af37)
